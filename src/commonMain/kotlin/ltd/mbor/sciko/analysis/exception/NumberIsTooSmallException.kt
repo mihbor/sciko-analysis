@@ -5,8 +5,6 @@ import ltd.mbor.sciko.analysis.exception.util.LocalizedFormats
 
 /**
  * Exception to be thrown when a number is too small.
- *
- * @since 2.2
  */
 open class NumberIsTooSmallException
 /**
@@ -29,13 +27,6 @@ open class NumberIsTooSmallException
   val boundIsAllowed: Boolean
 ) : MathIllegalNumberException(specific, wrong, min) {
   /**
-   * @return the minimum.
-   */
-  /**
-   * @return `true` if the minimum is included in the allowed range.
-   */
-
-  /**
    * Construct the exception.
    *
    * @param wrong Value that is smaller than the minimum.
@@ -51,8 +42,4 @@ open class NumberIsTooSmallException
     wrong, min, boundIsAllowed
   )
 
-  companion object {
-    /** Serializable version Id.  */
-    private val serialVersionUID = -6100997100383932834L
-  }
 }

@@ -1,6 +1,5 @@
 package ltd.mbor.sciko.analysis.exception.util
 
-
 /**
  * Utility class for transforming the list of arguments passed to
  * constructors of exceptions.

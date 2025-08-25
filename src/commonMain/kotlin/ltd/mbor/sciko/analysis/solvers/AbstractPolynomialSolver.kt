@@ -4,11 +4,8 @@ import ltd.mbor.sciko.analysis.PolynomialFunction
 import org.jetbrains.kotlinx.multik.ndarray.data.D1
 import org.jetbrains.kotlinx.multik.ndarray.data.MultiArray
 
-
 /**
  * Base class for solvers.
- *
- * @since 3.0
  */
 abstract class AbstractPolynomialSolver : BaseAbstractUnivariateSolver<PolynomialFunction>, PolynomialSolver {
   /** Function.  */

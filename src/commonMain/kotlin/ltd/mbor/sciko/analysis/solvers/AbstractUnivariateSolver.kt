@@ -4,8 +4,6 @@ import ltd.mbor.sciko.analysis.UnivariateFunction
 
 /**
  * Base class for solvers.
- *
- * @since 3.0
  */
 abstract class AbstractUnivariateSolver : BaseAbstractUnivariateSolver<UnivariateFunction>, UnivariateSolver {
   /**

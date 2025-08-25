@@ -7,8 +7,6 @@ import ltd.mbor.sciko.analysis.exception.util.Localizable
 /**
  * Exception to be thrown when function values have the same sign at both
  * ends of an interval.
- *
- * @since 3.0
  */
 class NoBracketingException
 /**
@@ -32,26 +30,6 @@ class NoBracketingException
   val fHi: Double,
   vararg args: Any?
 ) : MathIllegalArgumentException(specific, lo, hi, fLo, fHi, args) {
-  /**
-   * Get the lower end of the interval.
-   *
-   * @return the lower end.
-   */
-  /**
-   * Get the higher end of the interval.
-   *
-   * @return the higher end.
-   */
-  /**
-   * Get the value at the lower end of the interval.
-   *
-   * @return the value at the lower end.
-   */
-  /**
-   * Get the value at the higher end of the interval.
-   *
-   * @return the value at the higher end.
-   */
 
   /**
    * Construct the exception.
@@ -66,8 +44,4 @@ class NoBracketingException
     fLo: Double, fHi: Double
   ) : this(LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, lo, hi, fLo, fHi)
 
-  companion object {
-    /** Serializable version Id.  */
-    private val serialVersionUID = -3629324471511904459L
-  }
 }

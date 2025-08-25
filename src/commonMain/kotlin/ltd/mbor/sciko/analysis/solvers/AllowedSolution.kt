@@ -17,8 +17,6 @@ package ltd.mbor.sciko.analysis.solvers
  * specific side the solution.
  *
  * @see BracketedUnivariateSolver
- *
- * @since 3.0
  */
 enum class AllowedSolution {
   /** There are no additional side restriction on the solutions for

@@ -5,8 +5,6 @@ import ltd.mbor.sciko.analysis.exception.util.LocalizedFormats
 
 /**
  * Class to signal parse failures.
- *
- * @since 2.2
  */
 class MathParseException : MathIllegalStateException, ExceptionContextProvider {
   /**
@@ -19,11 +17,11 @@ class MathParseException : MathIllegalStateException, ExceptionContextProvider {
   constructor(
     wrong: String,
     position: Int,
-    type: Class<*>
+    type: String
   ) {
     getContext().addMessage(
       LocalizedFormats.CANNOT_PARSE_AS_TYPE,
-      wrong, position, type.getName()
+      wrong, position, type
     )
   }
 
@@ -42,8 +40,4 @@ class MathParseException : MathIllegalStateException, ExceptionContextProvider {
     )
   }
 
-  companion object {
-    /** Serializable version Id.  */
-    private val serialVersionUID = -6024911025449780478L
-  }
 }

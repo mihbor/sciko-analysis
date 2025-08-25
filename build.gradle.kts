@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
+import kotlin.jvm.java
+
 plugins {
   kotlin("multiplatform") version "2.0.21"
   id("maven-publish")
@@ -12,21 +16,26 @@ repositories {
 }
 
 kotlin {
+  jvm()
+  jvmToolchain(21)
+  js(IR) {
+    browser()
+  }
   sourceSets {
     val commonMain by getting {
       dependencies {
         api("org.jetbrains.kotlinx:multik-core:0.2.3")
         implementation("org.jetbrains.kotlinx:multik-default:0.2.3")
-        implementation("com.github.mihbor:sciko-linalg:main-SNAPSHOT")
       }
     }
-    val commonTest by getting {
+    val jvmTest by getting {
       dependencies {
         implementation(kotlin("test"))
-        implementation("com.ionspin.kotlin:bignum:0.3.10")
       }
     }
   }
-  jvm()
-  jvmToolchain(21)
+}
+
+rootProject.plugins.withType(YarnPlugin::class.java) {
+  rootProject.the<YarnRootExtension>().yarnLockAutoReplace = true
 }

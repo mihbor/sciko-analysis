@@ -1,9 +1,5 @@
 package ltd.mbor.sciko.analysis.exception.util
 
-import ltd.mbor.sciko.analysis.exception.util.Localizable
-import java.util.*
-
-
 /**
  * Enumeration for localized messages formats used in exceptions messages.
  *
@@ -17,8 +13,6 @@ import java.util.*
  * needed by each format, as a basis for translators to create
  * localized properties files, and as a default format if some
  * translation is missing.
- *
- * @since 2.2
  */
 enum class LocalizedFormats(sourceFormat: String) : Localizable {
   // CHECKSTYLE: stop MultipleVariableDeclarations
@@ -370,21 +364,4 @@ enum class LocalizedFormats(sourceFormat: String) : Localizable {
     return sourceFormat
   }
 
-  /** {@inheritDoc}  */
-  override fun getLocalizedString(locale: Locale): String {
-    try {
-      val path = LocalizedFormats::class.java.getName().replace("\\.".toRegex(), "/")
-      val bundle =
-        ResourceBundle.getBundle("assets/" + path, locale)
-      if (bundle.getLocale().getLanguage() == locale.getLanguage()) {
-        // the value of the resource is the translated format
-        return bundle.getString(toString())
-      }
-    } catch (mre: MissingResourceException) { // NOPMD
-      // do nothing here
-    }
-    // either the locale is not supported or the resource is unknown
-    // don't translate and fall back to using the source format
-    return sourceFormat
-  }
 }

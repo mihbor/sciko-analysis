@@ -31,21 +31,13 @@ import kotlin.math.max
  * Laguerre's method is global in the sense that it can start with any initial
  * approximation and be able to solve all roots from that point.
  * The algorithm requires a bracketing condition.
- *
- * @since 1.2
  */
 class LaguerreSolver : AbstractPolynomialSolver {
   /** Complex solver.  */
   private val complexSolver = ComplexSolver()
   /**
-   * Construct a solver.
-   *
-   * @param absoluteAccuracy Absolute accuracy.
-   */
-  /**
    * Construct a solver with default accuracy (1e-6).
    */
-  @JvmOverloads
   constructor(absoluteAccuracy: Double = DEFAULT_ABSOLUTE_ACCURACY) : super(absoluteAccuracy)
 
   /**

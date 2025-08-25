@@ -1,21 +1,25 @@
 package ltd.mbor.sciko.analysis.solvers
 
 import ltd.mbor.sciko.analysis.PolynomialFunction
+import ltd.mbor.sciko.analysis.Precision
 import ltd.mbor.sciko.analysis.exception.NoBracketingException
 import ltd.mbor.sciko.analysis.exception.NoDataException
 import ltd.mbor.sciko.analysis.exception.NumberIsTooLargeException
 import ltd.mbor.sciko.analysis.exception.TooManyEvaluationsException
 import ltd.mbor.sciko.analysis.util.ComplexFormat
-import ltd.mbor.sciko.linalg.FastMath
-import ltd.mbor.sciko.linalg.Precision
 import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.ndarray
 import org.jetbrains.kotlinx.multik.api.zeros
 import org.jetbrains.kotlinx.multik.ndarray.complex.ComplexDouble
 import org.jetbrains.kotlinx.multik.ndarray.data.D1
 import org.jetbrains.kotlinx.multik.ndarray.data.MultiArray
-import org.junit.Assert
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.sqrt
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.fail
 
 
 /**
@@ -46,12 +50,12 @@ class LaguerreSolverTest {
     min = 0.0
     max = 1.0
     expected = 0.25
-    tolerance = FastMath.max(
+    tolerance = max(
       solver.absoluteAccuracy,
-      FastMath.abs(expected*solver.relativeAccuracy)
+      abs(expected*solver.relativeAccuracy)
     )
     result = solver.solve(100, f, min, max)
-    Assert.assertEquals(expected, result, tolerance)
+    assertEquals(expected, result, tolerance)
   }
 
   /**
@@ -71,21 +75,21 @@ class LaguerreSolverTest {
     min = 0.0
     max = 2.0
     expected = 0.5
-    tolerance = FastMath.max(
+    tolerance = max(
       solver.absoluteAccuracy,
-      FastMath.abs(expected*solver.relativeAccuracy)
+      abs(expected*solver.relativeAccuracy)
     )
     result = solver.solve(100, f, min, max)
-    Assert.assertEquals(expected, result, tolerance)
+    assertEquals(expected, result, tolerance)
     min = -4.0
     max = -1.0
     expected = -3.0
-    tolerance = FastMath.max(
+    tolerance = max(
       solver.absoluteAccuracy,
-      FastMath.abs(expected*solver.relativeAccuracy)
+      abs(expected*solver.relativeAccuracy)
     )
     result = solver.solve(100, f, min, max)
-    Assert.assertEquals(expected, result, tolerance)
+    assertEquals(expected, result, tolerance)
   }
 
   /**
@@ -105,30 +109,30 @@ class LaguerreSolverTest {
     min = -2.0
     max = 2.0
     expected = -1.0
-    tolerance = FastMath.max(
+    tolerance = max(
       solver.absoluteAccuracy,
-      FastMath.abs(expected*solver.relativeAccuracy)
+      abs(expected*solver.relativeAccuracy)
     )
     result = solver.solve(100, f, min, max)
-    Assert.assertEquals(expected, result, tolerance)
+    assertEquals(expected, result, tolerance)
     min = -5.0
     max = -2.5
     expected = -3.0
-    tolerance = FastMath.max(
+    tolerance = max(
       solver.absoluteAccuracy,
-      FastMath.abs(expected*solver.relativeAccuracy)
+      abs(expected*solver.relativeAccuracy)
     )
     result = solver.solve(100, f, min, max)
-    Assert.assertEquals(expected, result, tolerance)
+    assertEquals(expected, result, tolerance)
     min = 3.0
     max = 6.0
     expected = 4.0
-    tolerance = FastMath.max(
+    tolerance = max(
       solver.absoluteAccuracy,
-      FastMath.abs(expected*solver.relativeAccuracy)
+      abs(expected*solver.relativeAccuracy)
     )
     result = solver.solve(100, f, min, max)
-    Assert.assertEquals(expected, result, tolerance)
+    assertEquals(expected, result, tolerance)
   }
 
   /**
@@ -144,13 +148,13 @@ class LaguerreSolverTest {
     for (expected in arrayOf<ComplexDouble>(
       ComplexDouble(0, -2),
       ComplexDouble(0, 2),
-      ComplexDouble(0.5, 0.5*FastMath.sqrt(3.0)),
+      ComplexDouble(0.5, 0.5*sqrt(3.0)),
       ComplexDouble(-1, 0),
-      ComplexDouble(0.5, -0.5*FastMath.sqrt(3.0))
+      ComplexDouble(0.5, -0.5*sqrt(3.0))
     )) {
-      val tolerance = FastMath.max(
+      val tolerance = max(
         solver.absoluteAccuracy,
-        FastMath.abs(expected.abs()*solver.relativeAccuracy)
+        abs(expected.abs()*solver.relativeAccuracy)
       )
       assertContains(result, expected, tolerance)
     }
@@ -167,24 +171,26 @@ class LaguerreSolverTest {
     try {
       // bad interval
       solver.solve(100, f, 1.0, -1.0)
-      Assert.fail("Expecting NumberIsTooLargeException - bad interval")
+      fail("Expecting NumberIsTooLargeException - bad interval")
     } catch (ex: NumberIsTooLargeException) {
       // expected
     }
     try {
       // no bracketing
       solver.solve(100, f, 2.0, 3.0)
-      Assert.fail("Expecting NoBracketingException - no bracketing")
+      fail("Expecting NoBracketingException - no bracketing")
     } catch (ex: NoBracketingException) {
       // expected
     }
   }
 
-  @Test(expected = NoDataException::class)
+  @Test
   fun testEmptyCoefficients() {
     val coefficients = mk.zeros<Double>(0)
     val solver = LaguerreSolver()
-    solver.solveComplex(coefficients, 0.0)
+    assertFailsWith(NoDataException::class) {
+      solver.solveComplex(coefficients, 0.0)
+    }
   }
 
 
@@ -195,21 +201,21 @@ class LaguerreSolverTest {
     val solver = LaguerreSolver(tol)
     // No evaluations limit -> solveAllComplex should get all roots
     val expected: Array<ComplexDouble> = arrayOf<ComplexDouble>(
-      ComplexDouble(0.5, FastMath.sqrt(3.0)/2),
-      ComplexDouble(-1, 0), ComplexDouble(0.5, -FastMath.sqrt(3.0)/2)
+      ComplexDouble(0.5, sqrt(3.0)/2),
+      ComplexDouble(-1, 0), ComplexDouble(0.5, -sqrt(3.0)/2)
     )
     val roots: MultiArray<ComplexDouble, D1> = solver.solveAllComplex(coefficients, 0.0)
     for (expectedRoot in expected) {
-      val tolerance = FastMath.max(
+      val tolerance = max(
         solver.absoluteAccuracy,
-        FastMath.abs(expectedRoot.abs()*solver.relativeAccuracy)
+        abs(expectedRoot.abs()*solver.relativeAccuracy)
       )
       assertContains(roots, expectedRoot, tolerance)
     }
     // Iterations limit too low -> throw TME
     try {
       solver.solveAllComplex(coefficients, 1000.0, 2)
-      Assert.fail("Expecting TooManyEvaluationsException")
+      fail("Expecting TooManyEvaluationsException")
     } catch (ex: TooManyEvaluationsException) {
       // expected
     }
@@ -236,7 +242,7 @@ class LaguerreSolverTest {
         return
       }
     }
-    Assert.fail(msg + " Unable to find " + (ComplexFormat()).format(z))
+    fail(msg + " Unable to find " + (ComplexFormat()).format(z))
   }
 
   /**

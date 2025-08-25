@@ -5,13 +5,10 @@ import ltd.mbor.sciko.analysis.exception.util.ExceptionContextProvider
 import ltd.mbor.sciko.analysis.exception.util.Localizable
 import ltd.mbor.sciko.analysis.exception.util.LocalizedFormats
 
-
 /**
  * Base class for all exceptions that signal that the process
  * throwing the exception is in a state that does not comply with
  * the set of states that it is designed to be in.
- *
- * @since 2.2
  */
 open class MathIllegalStateException : IllegalStateException, ExceptionContextProvider {
   /** Context.  */
@@ -57,13 +54,4 @@ open class MathIllegalStateException : IllegalStateException, ExceptionContextPr
     return context
   }
 
-  override val message: String get() = context.message
-
-  /** {@inheritDoc}  */
-  override fun getLocalizedMessage(): String = context.localizedMessage
-
-  companion object {
-    /** Serializable version Id.  */
-    private val serialVersionUID = -6024911025449780478L
-  }
 }

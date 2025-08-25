@@ -3,13 +3,7 @@ package ltd.mbor.sciko.analysis.exception.util
 import java.text.FieldPosition
 import java.text.NumberFormat
 import java.text.ParsePosition
-import java.util.*
-import kotlin.Boolean
-import kotlin.Char
-import kotlin.Number
-import kotlin.String
-import kotlin.doubleArrayOf
-
+import java.util.Locale
 
 /**
  * Base class for formatters of composite objects (complex numbers, vectors ...).

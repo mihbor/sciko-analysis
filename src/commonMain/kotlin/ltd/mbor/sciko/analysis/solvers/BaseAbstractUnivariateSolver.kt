@@ -16,8 +16,6 @@ import ltd.mbor.sciko.analysis.util.IntegerSequence
  * user's expectations, as well as the specifics of each implementation.
  *
  * @param <FUNC> Type of function to solve.
- *
- * @since 2.0
 </FUNC> */
 abstract class BaseAbstractUnivariateSolver<FUNC : UnivariateFunction>
 protected constructor(

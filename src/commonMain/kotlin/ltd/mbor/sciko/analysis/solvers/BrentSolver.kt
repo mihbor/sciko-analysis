@@ -1,10 +1,10 @@
 package ltd.mbor.sciko.analysis.solvers
 
+import ltd.mbor.sciko.analysis.Precision
 import ltd.mbor.sciko.analysis.exception.NoBracketingException
 import ltd.mbor.sciko.analysis.exception.NumberIsTooLargeException
 import ltd.mbor.sciko.analysis.exception.TooManyEvaluationsException
-import ltd.mbor.sciko.linalg.FastMath
-import ltd.mbor.sciko.linalg.Precision
+import kotlin.math.abs
 
 
 /**
@@ -30,14 +30,8 @@ import ltd.mbor.sciko.linalg.Precision
  */
 class BrentSolver : AbstractUnivariateSolver {
   /**
-   * Construct a solver.
-   *
-   * @param absoluteAccuracy Absolute accuracy.
-   */
-  /**
    * Construct a solver with default absolute accuracy (1e-6).
    */
-  @JvmOverloads
   constructor(absoluteAccuracy: Double = DEFAULT_ABSOLUTE_ACCURACY) : super(absoluteAccuracy)
 
   /**
@@ -75,12 +69,12 @@ class BrentSolver : AbstractUnivariateSolver {
     verifySequence(min, initial, max)
     // Return the initial guess if it is good enough.
     val yInitial = computeObjectiveValue(initial)
-    if (FastMath.abs(yInitial) <= functionValueAccuracy) {
+    if (abs(yInitial) <= functionValueAccuracy) {
       return initial
     }
     // Return the first endpoint if it is good enough.
     val yMin = computeObjectiveValue(min)
-    if (FastMath.abs(yMin) <= functionValueAccuracy) {
+    if (abs(yMin) <= functionValueAccuracy) {
       return min
     }
     // Reduce interval if min and initial bracket the root.
@@ -89,7 +83,7 @@ class BrentSolver : AbstractUnivariateSolver {
     }
     // Return the second endpoint if it is good enough.
     val yMax = computeObjectiveValue(max)
-    if (FastMath.abs(yMax) <= functionValueAccuracy) {
+    if (abs(yMax) <= functionValueAccuracy) {
       return max
     }
     // Reduce interval if initial and max bracket the root.
@@ -130,7 +124,7 @@ class BrentSolver : AbstractUnivariateSolver {
     val t = absoluteAccuracy
     val eps = relativeAccuracy
     while (true) {
-      if (FastMath.abs(fc) < FastMath.abs(fb)) {
+      if (abs(fc) < abs(fb)) {
         a = b
         b = c
         c = a
@@ -138,15 +132,15 @@ class BrentSolver : AbstractUnivariateSolver {
         fb = fc
         fc = fa
       }
-      val tol = 2*eps*FastMath.abs(b) + t
+      val tol = 2*eps*abs(b) + t
       val m = 0.5*(c - b)
-      if (FastMath.abs(m) <= tol ||
+      if (abs(m) <= tol ||
         Precision.equals(fb, 0.0)
       ) {
         return b
       }
-      if (FastMath.abs(e) < tol ||
-        FastMath.abs(fa) <= FastMath.abs(fb)
+      if (abs(e) < tol ||
+        abs(fa) <= abs(fb)
       ) {
         // Force bisection.
         d = m
@@ -176,8 +170,8 @@ class BrentSolver : AbstractUnivariateSolver {
         }
         s = e
         e = d
-        if (p >= 1.5*m*q - FastMath.abs(tol*q) ||
-          p >= FastMath.abs(0.5*s*q)
+        if (p >= 1.5*m*q - abs(tol*q) ||
+          p >= abs(0.5*s*q)
         ) {
           // Inverse quadratic interpolation gives a value
           // in the wrong direction, or progress is slow.
@@ -190,7 +184,7 @@ class BrentSolver : AbstractUnivariateSolver {
       }
       a = b
       fa = fb
-      if (FastMath.abs(d) > tol) {
+      if (abs(d) > tol) {
         b += d
       } else if (m > 0) {
         b += tol

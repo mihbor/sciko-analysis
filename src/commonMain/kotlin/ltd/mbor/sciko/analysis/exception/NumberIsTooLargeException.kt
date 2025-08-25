@@ -6,8 +6,6 @@ import ltd.mbor.sciko.analysis.exception.util.Localizable
 
 /**
  * Exception to be thrown when a number is too large.
- *
- * @since 2.2
  */
 class NumberIsTooLargeException
 /**
@@ -29,12 +27,6 @@ class NumberIsTooLargeException
    */
   val boundIsAllowed: Boolean
 ) : MathIllegalNumberException(specific, wrong, max) {
-  /**
-   * @return the maximum.
-   */
-  /**
-   * @return `true` if the maximum is included in the allowed range.
-   */
 
   /**
    * Construct the exception.
@@ -52,8 +44,4 @@ class NumberIsTooLargeException
     wrong, max, boundIsAllowed
   )
 
-  companion object {
-    /** Serializable version Id.  */
-    private const val serialVersionUID = 4330003017885151975L
-  }
 }

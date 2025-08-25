@@ -9,8 +9,6 @@ import ltd.mbor.sciko.analysis.exception.util.Localizable
  * In most cases, this class should not be instantiated directly: it should
  * serve as a base class to create all the exceptions that have the semantics
  * of the standard [IllegalArgumentException].
- *
- * @since 2.2
  */
 open class MathIllegalArgumentException(
   pattern: Localizable,
@@ -32,13 +30,4 @@ open class MathIllegalArgumentException(
     return context
   }
 
-  /** {@inheritDoc}  */
-  override fun getLocalizedMessage(): String? {
-    return context.localizedMessage
-  }
-
-  companion object {
-    /** Serializable version Id.  */
-    private val serialVersionUID = -6024911025449780478L
-  }
 }

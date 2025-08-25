@@ -9,15 +9,7 @@ import org.jetbrains.kotlinx.multik.ndarray.complex.ComplexDouble
 import java.text.FieldPosition
 import java.text.NumberFormat
 import java.text.ParsePosition
-import java.util.*
-import kotlin.Any
-import kotlin.Array
-import kotlin.IllegalArgumentException
-import kotlin.Number
-import kotlin.String
-import kotlin.Throws
-import kotlin.unaryMinus
-
+import java.util.Locale
 
 /**
  * Formats a Complex number in cartesian format "Re(c) + Im(c)i".  'i' can
@@ -82,7 +74,7 @@ class ComplexFormat {
    * format for both real and imaginary parts.
    * @param imaginaryCharacter The custom imaginary character.
    * @param format the custom format for both real and imaginary parts.
-   * @throws NoDataException if `imaginaryCharacter` is an
+   * @throws ltd.mbor.sciko.analysis.exception.NoDataException if `imaginaryCharacter` is an
    * empty string.
    */
   @JvmOverloads
@@ -96,7 +88,7 @@ class ComplexFormat {
    * @param imaginaryCharacter The custom imaginary character.
    * @param realFormat the custom format for the real part.
    * @param imaginaryFormat the custom format for the imaginary part.
-   * @throws NoDataException if `imaginaryCharacter` is an
+   * @throws ltd.mbor.sciko.analysis.exception.NoDataException if `imaginaryCharacter` is an
    * empty string.
    */
   constructor(
@@ -133,7 +125,7 @@ class ComplexFormat {
   }
 
   /**
-   * Formats a [ComplexDouble] object to produce a string.
+   * Formats a [org.jetbrains.kotlinx.multik.ndarray.complex.ComplexDouble] object to produce a string.
    *
    * @param complex the object to format.
    * @param toAppendTo where the text is to be appended
@@ -194,7 +186,7 @@ class ComplexFormat {
 
   /**
    * Formats a object to produce a string.  `obj` must be either a
-   * [ComplexDouble] object or a [Number] object.  Any other type of
+   * [org.jetbrains.kotlinx.multik.ndarray.complex.ComplexDouble] object or a [Number] object.  Any other type of
    * object will result in an [IllegalArgumentException] being thrown.
    *
    * @param obj the object to format.
@@ -203,7 +195,7 @@ class ComplexFormat {
    * offsets of the alignment field
    * @return the value passed in as toAppendTo.
    * @see java.text.Format.format
-   * @throws MathIllegalArgumentException is `obj` is not a valid type.
+   * @throws ltd.mbor.sciko.analysis.exception.MathIllegalArgumentException is `obj` is not a valid type.
    */
   @Throws(MathIllegalArgumentException::class)
   fun format(
@@ -233,7 +225,7 @@ class ComplexFormat {
    *
    * @param source the string to parse.
    * @return the parsed [Complex] object.
-   * @throws MathParseException if the beginning of the specified string
+   * @throws ltd.mbor.sciko.analysis.exception.MathParseException if the beginning of the specified string
    * cannot be parsed.
    */
   @Throws(MathParseException::class)
@@ -244,18 +236,18 @@ class ComplexFormat {
       throw MathParseException(
         source,
         parsePosition.getErrorIndex(),
-        ComplexDouble::class.java
+        ComplexDouble::class.java.getName()
       )
     }
     return result
   }
 
   /**
-   * Parses a string to produce a [ComplexDouble] object.
+   * Parses a string to produce a [org.jetbrains.kotlinx.multik.ndarray.complex.ComplexDouble] object.
    *
    * @param source the string to parse
    * @param pos input/ouput parsing parameter.
-   * @return the parsed [ComplexDouble] object.
+   * @return the parsed [org.jetbrains.kotlinx.multik.ndarray.complex.ComplexDouble] object.
    */
   fun parse(source: String, pos: ParsePosition): ComplexDouble? {
     val initialIndex = pos.getIndex()

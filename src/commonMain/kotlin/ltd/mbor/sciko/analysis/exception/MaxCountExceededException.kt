@@ -6,8 +6,6 @@ import ltd.mbor.sciko.analysis.exception.util.LocalizedFormats
 
 /**
  * Exception to be thrown when some counter maximum value is exceeded.
- *
- * @since 3.0
  */
 open class MaxCountExceededException(
   specific: Localizable,
@@ -41,8 +39,4 @@ open class MaxCountExceededException(
     this.max = max
   }
 
-  companion object {
-    /** Serializable version Id.  */
-    private const val serialVersionUID = 4330003017885151975L
-  }
 }

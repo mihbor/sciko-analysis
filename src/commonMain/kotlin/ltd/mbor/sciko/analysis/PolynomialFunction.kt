@@ -1,16 +1,16 @@
 package ltd.mbor.sciko.analysis
 
-import ltd.mbor.sciko.analysis.exception.util.LocalizedFormats
 import ltd.mbor.sciko.analysis.exception.NoDataException
+import ltd.mbor.sciko.analysis.exception.util.LocalizedFormats
 import ltd.mbor.sciko.analysis.exception.util.copyInto
-import ltd.mbor.sciko.linalg.toArray
 import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.ndarray
 import org.jetbrains.kotlinx.multik.api.zeros
 import org.jetbrains.kotlinx.multik.ndarray.data.D1
+import org.jetbrains.kotlinx.multik.ndarray.data.MultiArray
 import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.data.set
-import org.jetbrains.kotlinx.multik.ndarray.data.MultiArray
+import org.jetbrains.kotlinx.multik.ndarray.operations.toDoubleArray
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -113,10 +113,10 @@ class PolynomialFunction(c: MultiArray<Double, D1>): UnivariateFunction {
     for (i in 0..<lowLength) {
       newCoefficients[i] = coefficients[i] + p.coefficients[i]
     }
-    System.arraycopy(
-      if (coefficients.size < p.coefficients.size) p.coefficients else coefficients,
+    (if (coefficients.size < p.coefficients.size) p.coefficients else coefficients).copyInto(
+      newCoefficients,
       lowLength,
-      newCoefficients, lowLength,
+      lowLength,
       highLength - lowLength
     )
     return PolynomialFunction(newCoefficients)
@@ -142,10 +142,7 @@ class PolynomialFunction(c: MultiArray<Double, D1>): UnivariateFunction {
         newCoefficients[i] = -p.coefficients[i]
       }
     } else {
-      System.arraycopy(
-        coefficients, lowLength, newCoefficients, lowLength,
-        highLength - lowLength
-      )
+      coefficients.copyInto(newCoefficients, lowLength, lowLength, highLength - lowLength)
     }
     return PolynomialFunction(newCoefficients)
   }
@@ -247,7 +244,7 @@ class PolynomialFunction(c: MultiArray<Double, D1>): UnivariateFunction {
   override fun hashCode(): Int {
     val prime = 31
     var result = 1
-    result = prime*result + coefficients.toArray().contentHashCode()
+    result = prime*result + coefficients.toDoubleArray().contentHashCode()
     return result
   }
 
@@ -260,7 +257,7 @@ class PolynomialFunction(c: MultiArray<Double, D1>): UnivariateFunction {
       return false
     }
     val other = obj
-    if (!coefficients.toArray().contentEquals(other.coefficients.toArray())) {
+    if (!coefficients.toDoubleArray().contentEquals(other.coefficients.toDoubleArray())) {
       return false
     }
     return true

@@ -2,7 +2,6 @@ package ltd.mbor.sciko.analysis.solvers
 
 import ltd.mbor.sciko.analysis.UnivariateFunction
 
-
 /** Interface for [(univariate real) root-finding][UnivariateSolver] that maintain a bracketed solution. There are several advantages
  * to having such root-finding algorithms:
  *
@@ -25,8 +24,6 @@ import ltd.mbor.sciko.analysis.UnivariateFunction
  * @param <FUNC> Type of function to solve.
  *
  * @see AllowedSolution
- *
- * @since 3.0
 </FUNC> */
 interface BracketedUnivariateSolver<FUNC : UnivariateFunction> : BaseUnivariateSolver<FUNC> {
   /**

@@ -1,10 +1,9 @@
 package ltd.mbor.sciko.analysis.util
 
+import ltd.mbor.sciko.analysis.exception.MathUnsupportedOperationException
 import ltd.mbor.sciko.analysis.exception.MaxCountExceededException
 import ltd.mbor.sciko.analysis.exception.NotStrictlyPositiveException
 import ltd.mbor.sciko.analysis.exception.util.LocalizedFormats
-import ltd.mbor.sciko.linalg.MathUnsupportedOperationException
-
 
 /**
  * Provides a sequence of integers.
@@ -237,14 +236,6 @@ object IntegerSequence {
      * @return `false` if calling [ increment(nTimes)][.increment] would call the [callback][MaxCountExceededCallback]
      * `true` otherwise.
      */
-    /**
-     * Checks whether incrementing the counter `nTimes` is allowed.
-     *
-     * @return `false` if calling [.increment]
-     * will trigger a `MaxCountExceededException`,
-     * `true` otherwise.
-     */
-    @JvmOverloads
     fun canIncrement(nTimes: Int = 1): Boolean {
       val finalCount = count + nTimes*increment
       return if (increment < 0) finalCount > maximalCount else finalCount < maximalCount
@@ -258,21 +249,6 @@ object IntegerSequence {
      *
      * @see .increment
      */
-    /**
-     * Adds the increment value to the current iteration count.
-     * At counter exhaustion, this method will call the
-     * [trigger][MaxCountExceededCallback.trigger] method of the
-     * callback object passed to the
-     * [.withCallback] method.
-     * If not explicitly set, a default callback is used that will throw
-     * a `MaxCountExceededException`.
-     *
-     * @throws MaxCountExceededException at counter exhaustion, unless a
-     * custom [callback][MaxCountExceededCallback] has been set.
-     *
-     * @see .increment
-     */
-    @JvmOverloads
     @Throws(MaxCountExceededException::class)
     fun increment(nTimes: Int = 1) {
       if (nTimes <= 0) {
