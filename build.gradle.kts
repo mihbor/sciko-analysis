@@ -41,7 +41,7 @@ kotlin {
 
 android {
   compileSdk = 36
-  namespace = "ltd.mbor.sciko.linalg"
+  namespace = "ltd.mbor.sciko.analysis"
   defaultConfig {
     minSdk = 21
   }
