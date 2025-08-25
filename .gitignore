@@ -3,3 +3,5 @@
 /.gradle/
 *.iml
 .kotlin
+/local.properties
+/kotlin-js-store/
