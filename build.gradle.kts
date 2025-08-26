@@ -23,7 +23,9 @@ kotlin {
   js(IR) {
     browser()
   }
-  androidTarget()
+  androidTarget {
+    publishLibraryVariants("release", "debug")
+  }
   sourceSets {
     val commonMain by getting {
       dependencies {
